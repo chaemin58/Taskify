@@ -11,4 +11,3 @@ export function cardListQueryOptions(columnId: number) {
     queryFn: () => getCardList({ columnId }),
   };
 }
-
