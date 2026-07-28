@@ -35,39 +35,53 @@ export function ColumnList({ column }: { column: ColumnList }) {
   const cardList = data?.cards ?? [];
   const totalCount = data?.totalCount ?? 0;
 
-  const handleDropdown = (e: React.DragEvent<HTMLDivElement>) => {
-    const cardId = Number(e.dataTransfer.getData("cardId"));
+  //드래그 후 핸들러
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    const dragCardId = Number(e.dataTransfer.getData("cardId"));
     const startColumnId = Number(e.dataTransfer.getData("startColumnId"));
+    let movedCard: Card | undefined;
 
     if (startColumnId === id) return;
 
-    let movedCard: Card | undefined;
-
+    //드래그가 끝났을 때 실행할 이벤트 핸들러 | 먼저 제거하고
+    //지금 drop이 일어난 컬럼id를 가져와서 캐시를 변경해야됨.
     queryClient.setQueryData(
       cardKeys.list(startColumnId),
       (old: GetCardListResponse) => {
-        //찾아서 저장
-        movedCard = old.cards.find((card) => card.id === cardId);
-
-        //이제 제거해주기
-        const newCards = old.cards.filter((c) => c.id !== cardId);
-        return { ...old, cards: newCards, totalCount: old.totalCount - 1 };
+        {
+          //old가 없을 수도 있다는 방어 코드
+          const base: GetCardListResponse = old ?? { cards: [], totalCount: 0 };
+          //old 사이에서 변경이 일어난 카드 찾아 저장
+          movedCard = base.cards.find((el) => el.id === dragCardId);
+          const newCardList = base.cards.filter((el) => el.id !== dragCardId);
+          return {
+            ...base,
+            cards: newCardList,
+            totalCount: base.totalCount - 1,
+          };
+        }
       }
     );
 
-    queryClient.setQueryData(cardKeys.list(id), (old: GetCardListResponse) => ({
-      ...old,
-      //카드 추가
-      cards: [...old.cards, movedCard],
-      totalCount: old.totalCount + 1,
-    }));
+    //이제 movedCard 카드 추가
+    queryClient.setQueryData(cardKeys.list(id), (old: GetCardListResponse) => {
+      {
+        const base: GetCardListResponse = old ?? { cards: [], totalCount: 0 };
+
+        return {
+          ...base,
+          cards: [...base.cards, movedCard],
+          totalCount: base.totalCount + 1,
+        };
+      }
+    });
   };
 
   return (
     <div
       className="flex min-w-83.5 flex-col gap-5 max-lg:mx-0 max-lg:w-full"
       onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => handleDropdown(e)}
+      onDrop={(e) => handleDrag(e)}
     >
       <ColumnListHeader
         title={title}
@@ -89,7 +103,7 @@ export function ColumnList({ column }: { column: ColumnList }) {
           <Link
             href={`/card/${colCard.id}`}
             key={colCard.id}
-            draggable
+            draggable={true}
             onDragStart={(e) => {
               e.dataTransfer.setData("cardId", String(colCard.id));
               e.dataTransfer.setData("startColumnId", String(id));
