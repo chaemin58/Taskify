@@ -1,5 +1,3 @@
-"use client";
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
@@ -18,13 +16,11 @@ import type {
   UpdateCardRequest,
   CreateInvitationRequest,
   UpdateUserRequest,
-  GetCardListResponse,
 } from "@/types/api";
 
-export const cardKeys = {
-  all: ["cards"] as const,
-  list: (columnId: number) => [...cardKeys.all, "list", columnId] as const,
-};
+import { cardKeys, cardListQueryOptions } from "./cardQueries";
+
+export { cardKeys, cardListQueryOptions };
 
 export const dashboardKeys = {
   detail: (dashboardId: number) =>
@@ -41,12 +37,7 @@ export const memberKeys = {
 
 export function useCardListQuery(columnId: number) {
   return useQuery({
-    queryKey: cardKeys.list(columnId),
-    queryFn: async (): Promise<GetCardListResponse> => {
-      const res = await fetch(`/api/cards?columnId=${columnId}`);
-      if (!res.ok) throw new Error("카드 조회 실패");
-      return res.json();
-    },
+    ...cardListQueryOptions(columnId),
     enabled: !!columnId,
   });
 }

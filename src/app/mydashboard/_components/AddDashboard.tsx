@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+
 import SquarePlus from "@/assets/squareplus-icon.svg";
 
 export function AddDashboard() {
@@ -14,4 +15,3 @@ export function AddDashboard() {
     </Link>
   );
 }
-

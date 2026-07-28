@@ -1,31 +1,20 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useRef } from "react";
-
-import { getDashboardList } from "@/api/data";
 
 import { SideButton } from "./SideButton";
 import { Dashboard } from "./SideMenu";
-
-const PAGE_SIZE = 20;
+import { useGetDashboardsList } from "@/app/mydashboard/hooks/useGetDashboardsList";
 
 export function SideDashboardList() {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteQuery({
-      queryKey: ["dashboards"],
-      queryFn: ({ pageParam = 1 }) =>
-        getDashboardList({
-          navigationMethod: "pagination",
-          page: pageParam,
-          size: PAGE_SIZE,
-        }),
-      initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages) => {
-        const fetched = allPages.length * PAGE_SIZE;
-        return fetched < lastPage.totalCount ? allPages.length + 1 : undefined;
-      },
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    error,
+    isFetchingNextPage,
+    isLoading,
+  } = useGetDashboardsList();
 
   const observerInstanceRef = useRef<IntersectionObserver | null>(null);
 
@@ -45,6 +34,8 @@ export function SideDashboardList() {
     },
     [fetchNextPage, hasNextPage, isFetchingNextPage]
   );
+
+  if (error) return <p>에러 발생</p>;
 
   const dashboards: Dashboard[] =
     data?.pages.flatMap((page) => page.dashboards) ?? [];

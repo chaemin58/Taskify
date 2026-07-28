@@ -1,9 +1,7 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { getDashboardList } from "@/api/data";
 import { PaginationButton } from "@/components/PaginationButton";
 
 import { useItemsPerPage } from "../hooks/useItemsPerPage";
@@ -11,33 +9,14 @@ import { useItemsPerPage } from "../hooks/useItemsPerPage";
 import { AddDashboard } from "./AddDashboard";
 import { DashboardCard } from "./DashboardCard";
 import { Emptydashboard } from "./Emptydashboard";
-
-const SIZE = 10;
+import { useGetDashboardsList } from "../hooks/useGetDashboardsList";
 
 export function MyDashboard() {
   const showItem = useItemsPerPage();
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { data, isLoading, error, fetchNextPage, hasNextPage } =
-    useInfiniteQuery({
-      queryKey: ["dashboard"],
-      queryFn: ({ pageParam }) =>
-        getDashboardList({
-          navigationMethod: "pagination",
-          page: pageParam,
-          size: SIZE,
-        }),
-      initialPageParam: 1,
-      //다음 페이지 번호가 뭔지, fetchNextPage하면 pageParam으로 뭘 넘길지 정한다.
-      getNextPageParam: (lastPage, allPages) => {
-        const loaded = allPages.reduce(
-          (sum, p) => sum + p.dashboards.length,
-          0
-        );
-        // 아직 서버에 남은 게 있으면 다음 페이지 번호를, 없으면 undefined
-        return loaded < lastPage.totalCount ? allPages.length + 1 : undefined;
-      },
-    });
+    useGetDashboardsList();
 
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <p>에러 발생</p>;
