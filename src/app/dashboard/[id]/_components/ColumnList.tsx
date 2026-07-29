@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
+import { putCardUpdate } from "@/api/data";
 import { cardKeys, useCardListQuery } from "@/hooks/useCards";
 import { Card, GetCardListResponse } from "@/types/api";
 
@@ -36,12 +37,17 @@ export function ColumnList({ column }: { column: ColumnList }) {
   const totalCount = data?.totalCount ?? 0;
 
   //드래그 후 핸들러
-  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrag = async (e: React.DragEvent<HTMLDivElement>) => {
     const dragCardId = Number(e.dataTransfer.getData("cardId"));
     const startColumnId = Number(e.dataTransfer.getData("startColumnId"));
-    let movedCard: Card | undefined;
 
     if (startColumnId === id) return;
+
+    //롤백 대비 스냅샷
+    const prevFrom = queryClient.getQueryData(cardKeys.list(startColumnId));
+    const prevTo = queryClient.getQueryData(cardKeys.list(id));
+
+    let movedCard: Card | undefined;
 
     //드래그가 끝났을 때 실행할 이벤트 핸들러 | 먼저 제거하고
     //지금 drop이 일어난 컬럼id를 가져와서 캐시를 변경해야됨.
@@ -63,6 +69,8 @@ export function ColumnList({ column }: { column: ColumnList }) {
       }
     );
 
+    if (!movedCard) return;
+
     //이제 movedCard 카드 추가
     queryClient.setQueryData(cardKeys.list(id), (old: GetCardListResponse) => {
       {
@@ -75,6 +83,25 @@ export function ColumnList({ column }: { column: ColumnList }) {
         };
       }
     });
+
+    try {
+      await putCardUpdate(dragCardId, {
+        columnId: id,
+        title: movedCard.title,
+        description: movedCard.description,
+        ...(movedCard?.assignee?.id && {
+          assigneeUserId: movedCard.assignee.id,
+        }),
+        ...(movedCard.dueDate && { dueDate: movedCard.dueDate }),
+        ...(movedCard.tags && { tags: movedCard.tags }),
+        ...(movedCard.imageUrl && { imageUrl: movedCard.imageUrl }),
+      });
+    } catch {
+      queryClient.setQueryData(cardKeys.list(startColumnId), prevFrom);
+      queryClient.setQueryData(cardKeys.list(id), prevTo);
+
+      alert("컬럼 변경에 실패했습니다. ");
+    }
   };
 
   return (
