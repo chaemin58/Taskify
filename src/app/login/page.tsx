@@ -9,7 +9,7 @@ import { AuthForm } from "@/components/AuthForm/AuthForm";
 import { Dialog } from "@/components/dialog/Dialog";
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
-import { validationEmail, validationPassword } from "@/utils/validation";
+import { validationEmail, validationPassword } from "@/utils/authValidation";
 
 export default function LoginPage() {
   const [emailError, setEmailError] = useState("");
