@@ -20,7 +20,7 @@ export function EditSideButton({
   return (
     <button
       onClick={handleClick}
-      className="group relative flex w-full items-center justify-between overflow-hidden rounded-2xl px-3.5 py-4 text-left"
+      className="group relative flex w-full cursor-pointer items-center justify-between overflow-hidden rounded-2xl px-3.5 py-4 text-left"
     >
       {/* 텍스트: 삭제 버튼이면 빨간색, 활성화 상태면 흰색(혹은 강조색) */}
       <span
@@ -36,13 +36,7 @@ export function EditSideButton({
       </span>
 
       {/* 아이콘이 있을 때만 렌더링 */}
-      {Icon && (
-        <Icon
-          width={24}
-          height={24}
-          className="relative z-10"
-        />
-      )}
+      {Icon && <Icon width={24} height={24} className="relative z-10" />}
 
       {/* 배경 호버 효과 (원형이 커지는 애니메이션) */}
       <div
