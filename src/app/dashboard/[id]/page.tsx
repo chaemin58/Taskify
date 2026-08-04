@@ -1,16 +1,17 @@
-import { getColumnList, getDashboardDetail } from "@/api/data";
-import { DashboardTag } from "@/components/DashboardTag/DashboardTag";
-
-import { ColumnPlusButton } from "./_components/ColumnPlusButton";
-import { DesktopColumnList } from "./_components/DesktopColumnList";
-import { MoblieColumnList } from "./_components/MoblieColumnList";
 import {
   defaultShouldDehydrateQuery,
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+
+import { getColumnList, getDashboardDetail } from "@/api/data";
+import { DashboardTag } from "@/components/DashboardTag/DashboardTag";
 import { cardListQueryOptions } from "@/hooks/cardQueries";
+
+import { ColumnPlusButton } from "./_components/ColumnPlusButton";
+import { DesktopColumnList } from "./_components/DesktopColumnList";
+import { MoblieColumnList } from "./_components/MoblieColumnList";
 
 export interface ColumnList {
   id: number;
