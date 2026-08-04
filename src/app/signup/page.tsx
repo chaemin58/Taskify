@@ -13,7 +13,7 @@ import {
   validationNickname,
   validationPassword,
   validationPasswordCheck,
-} from "@/utils/validation";
+} from "@/utils/authValidation";
 
 export default function SignupPage() {
   const [emailError, setEmailError] = useState("");

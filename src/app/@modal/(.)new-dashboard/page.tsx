@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/input/input";
 import { Modal } from "@/components/modal/Modal";
 import { ModalHeader } from "@/components/modal/ModalHeader";
+import { validateDashboardTitle } from "@/utils/dashboardLengthValidation";
 
 const ColorMatch = {
   red: "#ae2e24",
@@ -29,6 +30,7 @@ export default function DashboardSetupModal() {
   const [selectColor, setSelectColor] = useState<ColorName>();
   const [selectHex, setSelectHex] = useState("");
   const [hasSelection, setHasSelection] = useState<boolean>(false);
+  const [titleError, setTitleError] = useState<string>("");
   const router = useRouter();
   const pathname = usePathname();
 
@@ -37,6 +39,10 @@ export default function DashboardSetupModal() {
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDashboardTitle(e.target.value);
     if (error) setError("");
+  };
+
+  const handleTitleBlue = (e: React.FocusEvent<HTMLInputElement>) => {
+    setTitleError(validateDashboardTitle(e.target.value));
   };
 
   const handleColorSelect = (id: ColorName) => {
@@ -74,12 +80,13 @@ export default function DashboardSetupModal() {
       <div className="border-gray-stroke flex flex-col gap-5 rounded-3xl">
         <ModalHeader>새 대시보드 생성</ModalHeader>
         <form name="postNewDashboard" className="flex flex-col gap-5">
-          <Input>
+          <Input errorMessage={titleError}>
             <Input.Wrapper>
               <Input.Field
                 placeholder="대시보드 이름을 입력해주세요."
                 value={dashboardTitle}
                 onChange={handleFieldChange}
+                onBlur={handleTitleBlue}
               />
             </Input.Wrapper>
             <Input.Error />
@@ -90,11 +97,7 @@ export default function DashboardSetupModal() {
             hasSelection={hasSelection}
           />
           <div className="flex gap-5">
-            <Button
-              colorType="secondary"
-              type="button"
-              onClick={handleCancel}
-            >
+            <Button colorType="secondary" type="button" onClick={handleCancel}>
               취소
             </Button>
             <Button onClick={handlePostNewDashboard} type="submit">

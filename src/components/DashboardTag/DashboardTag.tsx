@@ -10,9 +10,9 @@ interface DashboardTagProps {
 
 export function DashboardTag({color, title, size = 36, className}: DashboardTagProps){
   return(
-    <div className={cn("flex items-center gap-1", className)}>
+    <div className={cn("flex min-w-0 items-center gap-1", className)}>
       <Colorchip width={size} height={size} className="shrink-0" style={{ fill: color }}/>
-      <span className="whitespace-nowrap">{title}</span>
+      <span className="min-w-0 truncate">{title}</span>
     </div>
   )
 }
