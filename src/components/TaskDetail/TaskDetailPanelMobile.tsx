@@ -1,5 +1,6 @@
 import { ProfileWrapper } from "@/components/profile/Profile";
 import { CardResponse } from "@/types/api";
+import { getFormatDueDate } from "@/utils/date";
 
 import { TaskDetailPanelInfo } from "./TaskDetailPanelInfo";
 
@@ -32,7 +33,9 @@ export function TaskDetailPanelMobile({
           )}
         </div>
       </TaskDetailPanelInfo>
-      <TaskDetailPanelInfo label="마감일">{dueDate}</TaskDetailPanelInfo>
+      <TaskDetailPanelInfo label="마감일">
+        {getFormatDueDate(dueDate)}
+      </TaskDetailPanelInfo>
     </div>
   );
 }

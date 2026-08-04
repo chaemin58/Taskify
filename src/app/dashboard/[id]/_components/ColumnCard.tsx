@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { BadgeContainer } from "@/components/Badge/BadgeContainer";
 import { ProfileWrapper } from "@/components/profile/Profile";
+import { getFormatDueDateShort } from "@/utils/date";
 
 interface ColumnCardProps {
   cardTitle: string;
@@ -39,7 +40,7 @@ export function ColumnCard({
       <h1 className="text-[18px] font-semibold">{cardTitle}</h1>
       {/* 기능구현할 때는 배지리스트 받아서 처리 */}
       {tags && <BadgeContainer tags={tags} />}
-      {duedate && <div>{new Date(duedate).toLocaleDateString()}</div>}
+      {duedate && <div>{getFormatDueDateShort(duedate)}</div>}
       {creator && <ProfileWrapper name={creator} imageUrl={creatorImageUrl} />}
     </div>
   );
