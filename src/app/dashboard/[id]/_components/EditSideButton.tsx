@@ -1,12 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { ReactNode } from "react";
+import { ComponentType, ReactNode, SVGProps } from "react";
 
 interface EditSideButtonProps {
   children: ReactNode;
   handleClick?: () => void;
-  icon?: string;
+  icon?: ComponentType<SVGProps<SVGSVGElement>>;
   isDelete?: boolean;
   isActive?: boolean;
 }
@@ -14,7 +13,7 @@ interface EditSideButtonProps {
 export function EditSideButton({
   children,
   handleClick,
-  icon,
+  icon: Icon,
   isDelete,
   isActive,
 }: EditSideButtonProps) {
@@ -37,12 +36,10 @@ export function EditSideButton({
       </span>
 
       {/* 아이콘이 있을 때만 렌더링 */}
-      {icon && (
-        <Image
-          src={icon}
-          height={24}
+      {Icon && (
+        <Icon
           width={24}
-          alt="아이콘"
+          height={24}
           className="relative z-10"
         />
       )}
