@@ -4,12 +4,14 @@ import { useParams, useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 import IconSettings from "@/assets/common/ic-setting.svg";
+import LogoutIcon from "@/assets/LogoutIcon.svg";
 import IconShare from "@/assets/common/ic-user-plus.svg";
 import IcSideMenu from "@/assets/ic-sidemenu.svg";
 import { useSideMenu } from "@/contexts/SideMenuContext";
 import { useMemberListQuery } from "@/hooks/useCards";
 
 import { ProfileImage } from "../profile/Profile";
+import { logout } from "@/actions/auth";
 
 const PROFILE_COLOR_KEYS = [
   "profile-green",
@@ -63,6 +65,10 @@ export function DashboardHeader() {
     }));
   }, [visibleMembers]);
 
+  const handleClickLogout = () => {
+    //로그아웃 모달 띄우기
+  };
+
   if (dashboardId === null || isNaN(dashboardId)) return null;
 
   return (
@@ -110,6 +116,15 @@ export function DashboardHeader() {
           >
             <IconShare />
             <span className="hidden text-sm font-medium md:inline">공유</span>
+          </button>
+          <button
+            className="group flex cursor-pointer items-center gap-2 text-gray-300 hover:text-white"
+            onClick={() => router.push(`/logout`)}
+          >
+            <LogoutIcon className="w-4 text-[#A39FB2]" />
+            <span className="hidden text-sm font-medium md:inline">
+              로그아웃
+            </span>
           </button>
         </div>
       </div>
