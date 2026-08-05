@@ -99,14 +99,14 @@ export function DashboardHeader() {
         <div className="flex items-center gap-2.5 md:gap-4">
           <button
             onClick={() => router.push(`/dashboard/${dashboardId}/edit`)}
-            className="group flex items-center gap-2 text-gray-300 hover:text-white"
+            className="group flex cursor-pointer items-center gap-2 text-gray-300 hover:text-white"
           >
             <IconSettings />
             <span className="hidden text-sm font-medium md:inline">관리</span>
           </button>
           <button
             onClick={() => router.push(`/dashboard/${dashboardId}/invite`)}
-            className="group flex items-center gap-2 text-gray-300 hover:text-white"
+            className="group flex cursor-pointer items-center gap-2 text-gray-300 hover:text-white"
           >
             <IconShare />
             <span className="hidden text-sm font-medium md:inline">공유</span>

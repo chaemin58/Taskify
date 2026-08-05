@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-import leftbtn from "@/assets/mydashboard/ic_left_arrow.svg";
-import rightbtn from "@/assets/mydashboard/ic_right_arrow.svg";
+import Leftbtn from "@/assets/mydashboard/ic_left_arrow.svg";
+import Rightbtn from "@/assets/mydashboard/ic_right_arrow.svg";
 
 interface PaginationButtonProp {
   current: number;
@@ -26,14 +26,14 @@ export function PaginationButton({
         onClick={handleClickPrev}
         disabled={current === 0}
       >
-        <Image height={24} width={24} src={leftbtn} alt="left" />
+        <Leftbtn />
       </button>
       <button
         className="disabled:opacity-30"
         onClick={handleClickNext}
         disabled={current === total - 1}
       >
-        <Image height={24} width={24} src={rightbtn} alt="right" />
+        <Rightbtn />
       </button>
     </div>
   );
