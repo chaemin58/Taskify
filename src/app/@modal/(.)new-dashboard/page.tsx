@@ -41,7 +41,7 @@ export default function DashboardSetupModal() {
     if (error) setError("");
   };
 
-  const handleTitleBlue = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleTitleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setTitleError(validateDashboardTitle(e.target.value));
   };
 
@@ -86,7 +86,7 @@ export default function DashboardSetupModal() {
                 placeholder="대시보드 이름을 입력해주세요."
                 value={dashboardTitle}
                 onChange={handleFieldChange}
-                onBlur={handleTitleBlue}
+                onBlur={handleTitleBlur}
               />
             </Input.Wrapper>
             <Input.Error />
