@@ -65,10 +65,6 @@ export function DashboardHeader() {
     }));
   }, [visibleMembers]);
 
-  const handleClickLogout = () => {
-    //로그아웃 모달 띄우기
-  };
-
   if (dashboardId === null || isNaN(dashboardId)) return null;
 
   return (

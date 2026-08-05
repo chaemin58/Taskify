@@ -14,8 +14,8 @@ export default function LogoutModal() {
     e.preventDefault();
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     router.back();
   };
 
