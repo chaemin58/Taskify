@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import Leftbtn from "@/assets/mydashboard/ic_left_arrow.svg";
 import Rightbtn from "@/assets/mydashboard/ic_right_arrow.svg";
 

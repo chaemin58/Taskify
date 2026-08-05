@@ -11,7 +11,6 @@ import { useSideMenu } from "@/contexts/SideMenuContext";
 import { useMemberListQuery } from "@/hooks/useCards";
 
 import { ProfileImage } from "../profile/Profile";
-import { logout } from "@/actions/auth";
 
 const PROFILE_COLOR_KEYS = [
   "profile-green",
