@@ -9,6 +9,7 @@ import { DashboardColorChoiceList } from "@/components/DashboardColorChoiceList"
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
 import { SaveToast } from "@/components/SaveToast";
+import { validateDashboardTitle } from "@/utils/dashboardLengthValidation";
 
 export interface ApiError {
   response?: {
@@ -40,6 +41,8 @@ export function DashboardEdit() {
   const params = useParams();
   const dashboardId = Number(params.id);
   const queryClient = useQueryClient();
+
+  const [titleError, setTitleError] = useState<string>("");
 
   const { data: dashboardDetail, isLoading } = useQuery({
     queryKey: ["dashboardDetail", dashboardId],
@@ -96,6 +99,10 @@ export function DashboardEdit() {
     setDashboardData({ ...dashboardData, color: hexCode });
   };
 
+  const handleDashboardTitleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setTitleError(validateDashboardTitle(e.target.value));
+  };
+
   if (isLoading || !dashboardData.color)
     return <div>데이터를 불러오는 중입니다...</div>;
 
@@ -105,7 +112,7 @@ export function DashboardEdit() {
         className="flex flex-col gap-7.5 max-md:gap-4"
         onSubmit={(e) => e.preventDefault()}
       >
-        <Input>
+        <Input errorMessage={titleError}>
           <Label htmlFor="name">이름</Label>
           <Input.Wrapper>
             <Input.Field
@@ -115,8 +122,10 @@ export function DashboardEdit() {
               onChange={(e) =>
                 setDashboardData({ ...dashboardData, title: e.target.value })
               }
+              onBlur={handleDashboardTitleBlur}
             />
           </Input.Wrapper>
+          <Input.Error />
         </Input>
         <div className="min-w-83.75">
           <DashboardColorChoiceList

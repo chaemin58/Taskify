@@ -26,8 +26,8 @@ export function DashboardEditHeader({ title }: DashboardEditHeaderProps) {
         onClick={handleBack}
         className="relative top-3 left-20 flex flex-col items-center justify-center gap-1.5 max-2xl:left-0 max-lg:top-0"
       >
-        <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-300 max-lg:h-7.5 max-lg:w-7.5">
-          <Xicon height={24} width={24} />
+        <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-2 border-gray-300 max-lg:h-7.5 max-lg:w-7.5">
+          <Xicon height={20} width={20} />
         </div>
         <span className="text-sm font-semibold text-gray-300 max-lg:hidden">
           돌아가기

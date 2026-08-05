@@ -17,7 +17,7 @@ export function SideButton({ id, title, color, createdByMe }: SideButtonProps) {
       onClick={() => router.push(`/dashboard/${id}`)}
       className="flex cursor-pointer items-center justify-between rounded-xl px-2.5 py-4 transition-colors duration-300 ease-in-out hover:bg-[#2C2B30]"
     >
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex min-w-0 flex-1 items-center gap-2">
         <DashboardTag
           title={title}
           color={color}
@@ -25,7 +25,9 @@ export function SideButton({ id, title, color, createdByMe }: SideButtonProps) {
           className="font-semibold"
         />
       </div>
-      {createdByMe && <CrownIcon className="fill-brand-700 h-5 w-5" />}
+      {createdByMe && (
+        <CrownIcon className="fill-brand-700 h-5 w-5 shrink-0" />
+      )}
     </div>
   );
 }

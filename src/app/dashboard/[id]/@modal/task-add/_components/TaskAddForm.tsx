@@ -216,7 +216,6 @@ export function TaskAddForm({
         <div className="flex flex-col gap-2">
           <Label>설명</Label>
           <textarea
-            required
             rows={4}
             className="w-full rounded-[14px] border border-gray-700 bg-[#201F23] p-3 transition-colors outline-none focus:border-[#00BFFF]"
             placeholder="설명을 입력해 주세요"

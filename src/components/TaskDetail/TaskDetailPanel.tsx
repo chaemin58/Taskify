@@ -2,6 +2,7 @@ import { ModalCloseButton } from "@/components/modal/ModalCloseButton";
 import { ProfileWrapper } from "@/components/profile/Profile";
 import { KebabButton } from "@/components/TaskDetail/KebabButton";
 import type { Assignee } from "@/types/api";
+import { getFormatDueDate } from "@/utils/date";
 
 import { TaskDetailPanelInfo } from "./TaskDetailPanelInfo";
 
@@ -42,7 +43,9 @@ export function TaskDetailPanel({
             )}
           </div>
         </TaskDetailPanelInfo>
-        <TaskDetailPanelInfo label="마감일">{dueDate}</TaskDetailPanelInfo>
+        <TaskDetailPanelInfo label="마감일">
+          {getFormatDueDate(dueDate)}
+        </TaskDetailPanelInfo>
       </div>
     </div>
   );

@@ -50,7 +50,10 @@ export async function TaskDetail({ cardInfo }: TaskDetailProps) {
           dashboardId={dashboardId}
           taskId={String(cardId)}
         />
-        <TaskDetailContent description={description} imageUrl={imageUrl} />
+        <TaskDetailContent
+          description={description ? description : "설명이 없습니다"}
+          imageUrl={imageUrl}
+        />
         <TaskDetailPanelMobile
           dueDate={dueDate}
           assignee={assignee}
