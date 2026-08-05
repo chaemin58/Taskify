@@ -7,4 +7,3 @@
 export const validateDashboardTitle = (title: string) => {
   return title.length <= 12 ? "" : "12자 이하으로 작성해주세요.";
 };
-
