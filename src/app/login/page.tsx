@@ -3,15 +3,16 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { login } from "@/actions/auth";
 import LoginImg from "@/assets/img-login.png";
 import { AuthForm } from "@/components/AuthForm/AuthForm";
 import { Dialog } from "@/components/dialog/Dialog";
 import { Input } from "@/components/input/input";
 import { Label } from "@/components/label/label";
 import { validationEmail, validationPassword } from "@/utils/authValidation";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -42,11 +43,23 @@ export default function LoginPage() {
       return;
     }
 
-    const response = await login(formData);
-    if (!response.success) {
-      setMessage(response.message);
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      setMessage(result.message);
       setIsDialogOpen(true);
+      return;
     }
+
+    router.push("/mydashboard");
   };
 
   return (

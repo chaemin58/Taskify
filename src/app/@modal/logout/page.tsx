@@ -1,6 +1,5 @@
 "use client";
 
-import { logout } from "@/actions/auth";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/modal/Modal";
 import { useRouter } from "next/navigation";
@@ -15,13 +14,14 @@ export default function LogoutModal() {
   };
 
   const handleLogout = async () => {
-    await logout();
-    router.back();
+    await fetch("/api/logout", { method: "POST" });
+    router.replace("/login");
+    router.refresh();
   };
 
   return (
     <Modal>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 md:gap-5 lg:px-7 lg:py-3">
         <div className="text-xl text-[#ffffff]">로그아웃 하시겠습니까?</div>
         <div className="flex gap-2">
           <Button colorType="secondary" size="md" onClick={handleCloseModal}>
@@ -35,4 +35,3 @@ export default function LogoutModal() {
     </Modal>
   );
 }
-

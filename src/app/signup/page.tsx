@@ -51,7 +51,7 @@ export default function SignupPage() {
   const handleDialogClose = () => {
     setIsDialogOpen(false);
     if (isSuccess) {
-      router.push("/login");
+      router.push("/mydashboard");
     }
   };
 
@@ -92,15 +92,24 @@ export default function SignupPage() {
       return;
     }
 
-    const response = await signup(formData);
-    setIsSuccess(response.success);
+    const response = await fetch("/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, nickname }),
+    });
 
-    if (!response.success) {
-      setDialogMessage(response.message);
-    } else {
-      setDialogMessage(response.message ?? "회원가입이 완료되었습니다.");
+    const result = await response.json();
+
+    setIsSuccess(result.success);
+
+    if (!result.success) {
+      setIsSuccess(false);
+      setDialogMessage(result.message);
+      setIsDialogOpen(true);
+      return;
     }
-
+    setIsSuccess(true);
+    setDialogMessage(result.message ?? "회원가입이 완료되었습니다.");
     setIsDialogOpen(true);
   };
 
